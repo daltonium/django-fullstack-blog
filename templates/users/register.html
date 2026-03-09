@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Join Inkwell{% endblock %}
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-brand">✦ Inkwell</div>
+    <h1 class="auth-title">Create your account</h1>
+    <form method="post" class="auth-form">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="field-group {% if field.errors %}field-group--error{% endif %}">
+        <label class="field-label">{{ field.label }}</label>
+        {{ field }}
+        {% for err in field.errors %}<span class="field-error">{{ err }}</span>{% endfor %}
+      </div>
+      {% endfor %}
+      <button class="btn btn-primary btn-full mt-sm" type="submit">Create Account</button>
+    </form>
+    <p class="auth-footer">Already have an account? <a href="{% url 'users:login' %}">Log in</a></p>
+  </div>
+</div>
+{% endblock %}

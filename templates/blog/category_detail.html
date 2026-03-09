@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}{{ category.name }} — Inkwell{% endblock %}
+{% block content %}
+<div class="filter-page">
+  <header class="filter-header">
+    <span class="category-dot-lg" style="background:{{ category.color }}"></span>
+    <h1>{{ category.name }}</h1>
+    {% if category.description %}<p>{{ category.description }}</p>{% endif %}
+  </header>
+  <div class="feed">
+    {% for post in page_obj %}
+      {% include 'blog/partials/_post_card.html' %}
+    {% empty %}
+      <p class="empty-state">No posts in this category yet.</p>
+    {% endfor %}
+    {% include 'blog/partials/_pagination.html' %}
+  </div>
+</div>
+{% endblock %}

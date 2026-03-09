@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Search — Inkwell{% endblock %}
+{% block content %}
+<div class="search-page">
+  <div class="search-header">
+    <h1>Search</h1>
+    <form class="search-bar" action="{% url 'blog:search' %}" method="get">
+      {% csrf_token %}
+      {{ form.q }}
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+  </div>
+  {% if query %}
+    <p class="search-summary">{{ page_obj.paginator.count }} result{{ page_obj.paginator.count|pluralize }} for <strong>"{{ query }}"</strong></p>
+    <div class="feed feed--compact">
+      {% for post in page_obj %}
+        <article class="post-card post-card--compact">
+          <div class="post-card__body">
+            {% if post.category %}<a href="{{ post.category.get_absolute_url }}" class="badge">{{ post.category.name }}</a>{% endif %}
+            <h2 class="post-card__title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+            <p class="post-card__excerpt">{{ post.excerpt|default:post.body|truncatewords:25 }}</p>
+          </div>
+        </article>
+      {% empty %}
+        <p class="empty-state">No posts matched your search.</p>
+      {% endfor %}
+    </div>
+    {% if page_obj.has_other_pages %}
+    <nav class="pagination">
+      {% if page_obj.has_previous %}<a href="?q={{ query }}&page={{ page_obj.previous_page_number }}" class="page-btn">← Prev</a>{% endif %}
+      <span class="page-info">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}<a href="?q={{ query }}&page={{ page_obj.next_page_number }}" class="page-btn">Next →</a>{% endif %}
+    </nav>
+    {% endif %}
+  {% endif %}
+</div>
+{% endblock %}

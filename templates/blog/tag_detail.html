@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}#{{ tag.name }} — Inkwell{% endblock %}
+{% block content %}
+<div class="filter-page">
+  <header class="filter-header">
+    <h1>#{{ tag.name }}</h1>
+    <p>All posts tagged <strong>#{{ tag.name }}</strong></p>
+  </header>
+  <div class="feed">
+    {% for post in page_obj %}
+      {% include 'blog/partials/_post_card.html' %}
+    {% empty %}
+      <p class="empty-state">No posts with this tag yet.</p>
+    {% endfor %}
+    {% include 'blog/partials/_pagination.html' %}
+  </div>
+</div>
+{% endblock %}

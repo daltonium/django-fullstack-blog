@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}{{ author.username }} — Inkwell{% endblock %}
+{% block content %}
+<div class="profile-page">
+  <header class="profile-header">
+    <div class="avatar-lg">{{ author.username|slice:":1"|upper }}</div>
+    <div class="profile-info">
+      <h1>{{ author.get_full_name|default:author.username }}</h1>
+      <span class="muted">@{{ author.username }}</span>
+      <span class="muted">Joined {{ author.date_joined|naturalday }}</span>
+    </div>
+    {% if user == author %}
+      <a href="{% url 'users:edit_profile' %}" class="btn btn-ghost btn-sm">Edit Profile</a>
+    {% endif %}
+  </header>
+
+  <section class="profile-posts">
+    <h2>{{ posts.count }} Post{{ posts.count|pluralize }}</h2>
+    <div class="feed feed--compact">
+      {% for post in posts %}
+        {% include 'blog/partials/_post_card.html' %}
+      {% empty %}
+        <p class="empty-state">No published posts yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}

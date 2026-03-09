@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}My Posts — Inkwell{% endblock %}
+{% block content %}
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h1>My Posts</h1>
+    <a href="{% url 'blog:post_create' %}" class="btn btn-primary">+ New Post</a>
+  </div>
+  <div class="post-table-wrap">
+    <table class="post-table">
+      <thead>
+        <tr><th>Title</th><th>Category</th><th>Status</th><th>Date</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for post in page_obj %}
+        <tr>
+          <td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
+          <td>{% if post.category %}<span class="badge">{{ post.category.name }}</span>{% else %}—{% endif %}</td>
+          <td><span class="status-pill status-{{ post.status }}">{{ post.get_status_display }}</span></td>
+          <td>{{ post.created_at|naturalday }}</td>
+          <td class="table-actions">
+            <a href="{% url 'blog:post_edit' slug=post.slug %}" class="action-link">Edit</a>
+            <a href="{% url 'blog:post_delete' slug=post.slug %}" class="action-link action-link--danger">Delete</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="empty-state">You haven't written any posts yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% include 'blog/partials/_pagination.html' %}
+  </div>
+</div>
+{% endblock %}
