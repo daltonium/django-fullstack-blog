@@ -1,4 +1,4 @@
-# Inkwell - Django Blog Platform
+# Inkwell - Django Blog Platfor
 
 ## Project Structure
 ```
