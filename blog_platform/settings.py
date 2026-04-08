@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-dev-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -80,11 +80,11 @@ WSGI_APPLICATION = 'blog_platform.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'blog_db'),
-        'USER': os.environ.get('DB_USER', 'blog_user'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'blog_pass'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'NAME': 'blogdb',
+        'USER': 'bloguser',
+        'PASSWORD': 'yournewpassword',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -143,3 +143,5 @@ LOGIN_URL = '/users/login/'
 # Timezone
 TIME_ZONE = 'Asia/Kolkata'
 USE_TZ = True
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
